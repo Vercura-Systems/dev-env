@@ -49,13 +49,31 @@ if ! command -v composer &>/dev/null; then
     sudo chmod +x /usr/local/bin/composer
 fi
 
-# Set default CLI to PHP 8.4
-if command -v php8.4 &>/dev/null; then
-    echo -e "${GREEN}[+] Setting PHP 8.4 as primary default...${NC}"
-    sudo update-alternatives --set php /usr/bin/php8.4 2>/dev/null || true
-    sudo update-alternatives --set phar /usr/bin/phar8.4 2>/dev/null || true
-    sudo update-alternatives --set phar.phar /usr/bin/phar.phar8.4 2>/dev/null || true
-fi
+# Configure generous developer limits (upload size, execution time, memory)
+echo -e "${GREEN}[+] Tuning php.ini settings for Laravel & modern web apps...${NC}"
+for VER in "${PHP_VERSIONS[@]}" "7.2"; do
+    for TARGET in fpm cli; do
+        INI_FILE="/etc/php/${VER}/${TARGET}/php.ini"
+        if [ -f "$INI_FILE" ]; then
+            sudo sed -i "s/^upload_max_filesize = .*/upload_max_filesize = 128M/" "$INI_FILE"
+            sudo sed -i "s/^post_max_size = .*/post_max_size = 128M/" "$INI_FILE"
+            sudo sed -i "s/^max_execution_time = .*/max_execution_time = 300/" "$INI_FILE"
+            sudo sed -i "s/^max_input_time = .*/max_input_time = 300/" "$INI_FILE"
+            if grep -q "^max_input_vars" "$INI_FILE"; then
+                sudo sed -i "s/^max_input_vars = .*/max_input_vars = 5000/" "$INI_FILE"
+            else
+                echo "max_input_vars = 5000" | sudo tee -a "$INI_FILE" > /dev/null
+            fi
+            if [ "$TARGET" = "fpm" ]; then
+                sudo sed -i "s/^memory_limit = .*/memory_limit = 512M/" "$INI_FILE"
+            else
+                sudo sed -i "s/^memory_limit = .*/memory_limit = -1/" "$INI_FILE"
+            fi
+        fi
+    done
+    sudo systemctl restart "php${VER}-fpm" 2>/dev/null || true
+done
 
 echo -e "${GREEN}✔ Module 02: Multi-PHP Stack complete.${NC}"
 php -v | head -1
+
