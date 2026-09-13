@@ -1,0 +1,19 @@
+# ─── Zenith Dev-Env Local Virtual Hosts ──────────────────────────────────────
+127.0.0.1	servicepack.test
+127.0.0.1	winexviv.test
+127.0.0.1	educare_website.test
+127.0.0.1	blog.educare_website.test
+127.0.0.1	control-panel.test
+127.0.0.1	control-panel-frontend.test
+127.0.0.1	doc.educare.test
+127.0.0.1	image.educare.test
+127.0.0.1	video.educare.test
+127.0.0.1	media.educare.test
+127.0.0.1	pdf.educare.test
+127.0.0.1	academy-pro.com
+127.0.0.1	test.academy-pro.com
+127.0.0.1	enuguwest.academy-pro.com
+127.0.0.1	api.academy-pro.local academy-pro.local
+127.0.0.1	enuguwest.academy-pro.local enuguwest.api.academy-pro.local
+127.0.0.1	api.bastion.test bastion.test
+127.0.0.1	kataloq.test admin.kataloq.test api.kataloq.test jsonventures.kataloq.test luxedecor.kataloq.test zestfashion.kataloq.test artisan.kataloq.test jege.kataloq.test wizz.kataloq.test testflow.kataloq.test

@@ -1,0 +1,22 @@
+# Local credentials & secrets (NEVER commit)
+*.cnf
+.my.cnf
+*.key
+*.pem
+*.crt
+*.cert
+.env
+.env.*
+!.env.example
+
+# Temporary and log files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# OS / Editor artifacts
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
